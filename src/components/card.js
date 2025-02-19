@@ -1,9 +1,7 @@
-const cardTemplate = document.querySelector("#card-template").content;
-const cardList = document.querySelector(".places__list");
-
 //Функция создания карточки
+const cardTemplate = document.querySelector("#card-template").content;
 
-function createCard(cardContent, deleteCard) {
+export function createCard(cardContent, deleteCard, likeCard, openImageModal) {
   const cardTemplateCopy = cardTemplate.firstElementChild.cloneNode(true);
 
   const cardImageTemplate = cardTemplateCopy.querySelector(".card__image");
@@ -21,12 +19,13 @@ function createCard(cardContent, deleteCard) {
 
 //Функция удаления карточки
 
-function deleteCard(card) {
+export function deleteCard(card) {
   card.remove();
 }
 
-//Вывод карточки на страницу
-
-initialCards.forEach((item) => {
-  cardList.append(createCard(item, deleteCard));
-});
+//Лайк карточки
+export function likeCard(evt){
+    if (evt.target.classList.contains('card__like-button')){
+      evt.target.classList.add('card__like-button_is-active');
+    }
+  }
