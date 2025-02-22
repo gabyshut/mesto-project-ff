@@ -1,7 +1,13 @@
+import { handleImage } from "./modal";
+
 //Функция создания карточки
 const cardTemplate = document.querySelector("#card-template").content;
+const placesList = document.querySelector(".places__list");
+const popupTypeImage = document.querySelector(".popup_type_image");
+const popupImage = document.querySelector(".popup__image");
+const popupImageCaption = document.querySelector(".popup__caption");
 
-export function createCard(cardContent, deleteCard, likeCard, openImageModal) {
+export function createCard(cardContent, deleteCard, likeCard, handleImage) {
   const cardTemplateCopy = cardTemplate.firstElementChild.cloneNode(true);
 
   const cardImageTemplate = cardTemplateCopy.querySelector(".card__image");
@@ -13,6 +19,10 @@ export function createCard(cardContent, deleteCard, likeCard, openImageModal) {
   cardDescriptionTemplate.textContent = cardContent.name;
 
   deleteButtonTemplate.addEventListener("click", () => deleteCard(cardTemplateCopy));
+  
+  cardImageTemplate.addEventListener('click', () => handleImage(cardContent));
+
+  placesList.addEventListener("click", likeCard);
 
   return cardTemplateCopy;
 }
