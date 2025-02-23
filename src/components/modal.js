@@ -30,10 +30,3 @@ export function closeModalByEscape(evt){
   }
 }
 
-export function handleImage(cardContent){
-  popupImage.setAttribute("src", cardContent.link);
-  popupImage.setAttribute("alt", cardContent.name);
-  popupImageCaption.textContent = cardContent.name;
-  
-  openModal(popupTypeImage);
-}

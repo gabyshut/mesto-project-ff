@@ -2,7 +2,6 @@ import "./pages/index.css";
 import { initialCards } from "./scripts/cards.js";
 import { createCard, deleteCard, likeCard } from "./components/card.js";
 import {
-  handleImage,
   openModal,
   closeModal,
   closeModalByEscape,
@@ -18,6 +17,16 @@ initialCards.forEach((item) => {
 });
 
 //Открытие и закрытие попапов
+
+function handleImage(cardContent){
+  popupImage.setAttribute("src", cardContent.link);
+  popupImage.setAttribute("alt", cardContent.name);
+  popupImageCaption.textContent = cardContent.name;
+  
+  openModal(popupTypeImage);
+}
+
+
 const popupProfileEdit = document.querySelector(".popup_type_edit");
 const popupNewCard = document.querySelector(".popup_type_new-card");
 export const popupTypeImage = document.querySelector(".popup_type_image");
