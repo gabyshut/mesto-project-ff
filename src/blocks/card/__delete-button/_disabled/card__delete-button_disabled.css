@@ -1,0 +1,4 @@
+.card__delete-button_disabled {
+    display: none;
+    cursor: default;
+}

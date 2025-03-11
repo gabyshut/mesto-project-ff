@@ -1,0 +1,14 @@
+.profile__image-edit {
+    height: 26px;
+    width: 26px;
+    position: absolute;
+    left: 47px;
+    top: 47px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 1;
+}
+
+.profile__image-container:hover .profile__image-edit, .profile__image-edit:hover {
+    opacity: 1;
+}
