@@ -50,30 +50,16 @@ const formChangeAvatar = document.querySelector(
 );
 const profileImage = document.querySelector(".profile__image");
 
-//Вывод карточки на страницу
+const cardPromises = [getCards(), getUsers("/users/me")];
 
-function displayInitialCards() {
-  const cardPromises = [getCards(), getUsers("/users/me")];
-  Promise.all(cardPromises)
-    .then(([APICards, currentUser]) => {
-      APICards.forEach((item) => {
-        cardList.append(
-          createCard(
-            item,
-            currentUser._id,
-            handleDeleteCard,
-            likeCard,
-            handleImage
-          )
-        );
-      });
-    })
-    .catch((err) => {
-      console.log(
-        `Не удалось получить информацию о карточках или пользователях. Ошибка: ${err}`
-      );
-    });
-}
+const profileEditButton = document.querySelector('.profile__edit-button');
+
+const newPlaceButton = document.querySelector('.profile__add-button');
+
+const profileImageContainer = document.querySelector('.profile__image-container');
+
+const popups = document.querySelectorAll('.popup');
+
 
 //Функция открытия попапа с картинкой
 
@@ -87,18 +73,10 @@ function handleImage(cardContent) {
 
 //Функция подстановки данных профиля
 
-function checkUserInfo() {
-  getUsers("/users/me")
-    .then((userInfo) => {
-      profileTitle.textContent = userInfo.name;
-      profileDescription.textContent = userInfo.about;
-      profileImage.setAttribute("src", userInfo.avatar);
-    })
-    .catch((err) => {
-      console.log(
-        `Не удалось получить информацию о пользователе. Ошибка: ${err}`
-      );
-    });
+function checkUserInfo(userInfo) {
+  profileTitle.textContent = userInfo.name;
+  profileDescription.textContent = userInfo.about;
+  profileImage.setAttribute("src", userInfo.avatar);
 }
 
 //Функция редактирование профиля
@@ -135,43 +113,56 @@ function renderLoading({ buttonElement, isLoading }) {
   }
 }
 
-//Отображение карточек на странице
+//Функция закрытия и открытия попапов и очистки сообщений валидации
 
-displayInitialCards();
+function handlePopup(modal, formElement){
+  openModal(modal);
+  clearValidation(formElement, formValidationConfig);
+}
 
-//Подстановка актуальных данных профиля
+//Отображение карточек и информации профиля на странице
 
-checkUserInfo();
-
-//Обработчик закрытия и открытия попапов
-
-document.addEventListener("mousedown", function (evt) {
-  if (evt.target.classList.contains("profile__edit-button")) {
-    checkUserInfo();
-
-    nameInput.value = profileTitle.textContent;
-    jobInput.value = profileDescription.textContent;
-    clearValidation(profileFormElement, formValidationConfig);
-    openModal(popupProfileEdit);
-    closeModalByEscape(popupProfileEdit);
-  }
-  if (evt.target.classList.contains("profile__add-button")) {
-    openModal(popupNewCard);
-    closeModalByEscape(popupNewCard);
-    clearValidation(placeFormElement, formValidationConfig);
-    placeFormElement.reset();
-  }
-  if (evt.target.classList.contains("profile__image-container") || evt.target.classList.contains('profile__image-edit')) {
-    openModal(popupChangeAvatar);
-    closeModalByEscape(popupChangeAvatar);
-    clearValidation(
-      popupChangeAvatar.querySelector(".popup__form"),
-      formValidationConfig
+Promise.all(cardPromises)
+  .then(([APICards, currentUser]) => {
+    APICards.forEach((item) => {
+      cardList.append(
+        createCard(
+          item,
+          currentUser._id,
+          handleDeleteCard,
+          likeCard,
+          handleImage
+        )
+      );
+      checkUserInfo(currentUser);
+    });
+  })
+  .catch((err) => {
+    console.log(
+      `Не удалось получить информацию о карточках или пользователях. Ошибка: ${err}`
     );
-    popupChangeAvatar.querySelector(".popup__form").reset();
-  }
-  closeModalByClick(evt);
+  });
+
+//Обработчики открытия и закрытия попапов
+
+profileEditButton.addEventListener('mousedown', function() {
+  nameInput.value = profileTitle.textContent;
+    jobInput.value = profileDescription.textContent;
+    handlePopup(popupProfileEdit, profileFormElement);
+})
+
+newPlaceButton.addEventListener('mousedown', function() {
+    handlePopup(popupNewCard, placeFormElement);
+})
+
+profileImageContainer.addEventListener('mousedown', function(){
+    handlePopup(popupChangeAvatar, popupChangeAvatar.querySelector('.popup__form'));
+})
+
+popups.forEach((popup) => {
+  popup.addEventListener("click", closeModalByClick);
 });
+
 
 //Обработчик подтверждения данных об изменении профиля
 

@@ -2,7 +2,6 @@ import { APIDeleteCard, APIHandleLikeCard, getUsers } from "./api";
 
 //Функция создания карточки
 const cardTemplate = document.querySelector("#card-template").content;
-getUsers("/users/me");
 
 export function createCard(
   cardContent,

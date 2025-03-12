@@ -23,9 +23,6 @@ export function getUsers(way) {
     .then((res) => {
       return checkResponse(res);
     })
-    .catch((err) => {
-      console.log(err);
-    });
 }
 
 export function getCards() {
@@ -37,9 +34,6 @@ export function getCards() {
     .then((res) => {
       return checkResponse(res);
     })
-    .catch((err) => {
-      console.log(err);
-    });
 }
 
 export function updateUserInfo(newName, newAbout) {
@@ -57,9 +51,6 @@ export function updateUserInfo(newName, newAbout) {
     .then((res) => {
       return checkResponse(res);
     })
-    .catch((err) => {
-      console.log(`Не удалось обновить данные пользователя. Ошибка ${err}`);
-    });
 }
 
 export function postNewCard(cardName, cardLink) {
@@ -77,9 +68,6 @@ export function postNewCard(cardName, cardLink) {
     .then((res) => {
       return checkResponse(res);
     })
-    .catch((err) => {
-      console.log(err);
-    });
 }
 
 export function APIDeleteCard(cardId) {
@@ -93,9 +81,6 @@ export function APIDeleteCard(cardId) {
     .then((res) => {
       return checkResponse(res);
     })
-    .catch((err) => {
-      console.log(err);
-    });
 }
 
 export function APIHandleLikeCard(cardId, method) {
@@ -109,9 +94,6 @@ export function APIHandleLikeCard(cardId, method) {
     .then((res) => {
       return checkResponse(res);
     })
-    .catch((err) => {
-      console.log(err);
-    });
 }
 
 export function updateAvatar(avatarURL) {
@@ -128,7 +110,4 @@ export function updateAvatar(avatarURL) {
     .then((res) => {
       return checkResponse(res);
     })
-    .catch((err) => {
-      console.log(err);
-    });
 }
